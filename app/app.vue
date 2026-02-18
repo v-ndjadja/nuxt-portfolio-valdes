@@ -5,7 +5,7 @@ NOM=NDJADJA
 PRENOM=VALDES
 NIVEAU="2 Cycle BTS"
 FILIAIRE="GSI"
-STATUT="Celibataire"
+STATUT="CELIBATAIREAS"
 RESIDENCE="Nkongsamba"
 />
 <div class= "container">
