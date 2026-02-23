@@ -1,5 +1,61 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+root { --radius: 0.5rem;
+  --background: oklch(0.153 0.009 264.274);
+  --foreground: oklch(0.96 0.005 247.881);
+  --muted: oklch(0.263 0.012 264.338);
+  --muted-foreground: oklch(0.712 0.022 264.424);
+  --popover: oklch(0.112 0.006 261.594);
+  --popover-foreground: oklch(1 0 180);
+  --card: oklch(0.128 0.006 261.594);
+  --card-foreground: oklch(1 0 180);
+  --border: oklch(0.21 0.009 264.351);
+  --input: oklch(0.242 0.012 264.326);
+  --primary: oklch(0.96 0.005 247.881);
+  --primary-foreground: oklch(0.456 0.046 248.861);
+  --secondary: oklch(0.366 0.021 248.396);
+  --secondary-foreground: oklch(0.882 0.01 247.941);
+  --accent: oklch(0.305 0.03 263.965);
+  --accent-foreground: oklch(0.832 0.023 264.439);
+  --destructive: oklch(0.612 0.216 27.811);
+  --destructive-foreground: oklch(1 0 180);
+  --ring: oklch(0.96 0.005 247.881);
+  --chart-1: oklch(0.96 0.005 247.881);
+  --chart-2: oklch(0.366 0.021 248.396);
+  --chart-3: oklch(0.305 0.03 263.965);
+  --chart-4: oklch(0.394 0.023 248.408);
+  --chart-5: oklch(0.96 0.006 247.888);
+}
+
+.dark {
+  --radius: 0.5rem;
+  --background: oklch(0.153 0.009 264.274);
+  --foreground: oklch(0.96 0.005 247.881);
+  --muted: oklch(0.263 0.012 264.338);
+  --muted-foreground: oklch(0.712 0.022 264.424);
+  --popover: oklch(0.112 0.006 261.594);
+  --popover-foreground: oklch(1 0 180);
+  --card: oklch(0.128 0.006 261.594);
+  --card-foreground: oklch(1 0 180);
+  --border: oklch(0.21 0.009 264.351);
+  --input: oklch(0.242 0.012 264.326);
+  --primary: oklch(0.96 0.005 247.881);
+  --primary-foreground: oklch(0.456 0.046 248.861);
+  --secondary: oklch(0.366 0.021 248.396);
+  --secondary-foreground: oklch(0.882 0.01 247.941);
+  --accent: oklch(0.305 0.03 263.965);
+  --accent-foreground: oklch(0.832 0.023 264.439);
+  --destructive: oklch(0.612 0.216 27.811);
+  --destructive-foreground: oklch(1 0 180);
+  --ring: oklch(0.96 0.005 247.881);
+  --chart-1: oklch(0.96 0.005 247.881);
+  --chart-2: oklch(0.366 0.021 248.396);
+  --chart-3: oklch(0.305 0.03 263.965);
+  --chart-4: oklch(0.394 0.023 248.408);
+  --chart-5: oklch(0.96 0.006 247.888);
+}
+
+  
 
 @theme static {
   --font-sans: 'Public Sans', sans-serif;

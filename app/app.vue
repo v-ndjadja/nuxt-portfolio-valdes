@@ -1,17 +1,18 @@
 <template>
-<div><h1>RENSEIGNEMENT ME CONCERNANT</h1>
-<mesinfo
-NOM=NDJADJA
-PRENOM=VALDES
-NIVEAU="2 Cycle BTS"
-FILIAIRE="GSI"
-STATUT="CELIBATAIREAS"
-RESIDENCE="Nkongsamba"
+   <div class="flex flex-col min-h-screen justify-between">
+<div>
+<HeaderNav
 />
-<div class= "container">
-<h1 class="display-1 ">
-PORT-FOLIO</h1>
 </div>
+<div class="flex items-center">
+<img src="/valdes.jpg" alt="Valdes" class="mx-auto w-64 h-64 rounded-full shadow-lg"/>
+</div>
+<div>
+   <MainContent/>
+</div>
+<div>
+   </div>
+   <FooterNav/>
 </div>
 </template>
 <script>
