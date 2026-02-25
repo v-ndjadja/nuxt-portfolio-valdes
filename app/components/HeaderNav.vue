@@ -33,14 +33,17 @@
                     href="#ACCUEIL">ACCUEIL</a>
 
                 </li>
-                <li><a href="#EXPERIENCE">EXPERIENCE</a>
+                <li><a href="#A PROPOS">A PROPOS</a>
 
                 </li>
-                <li><a href="#CONTACT">CONTACT</a>
+                <li><a href="#PARCOURS">PARCOURS</a>
+
+                </li>
+                <li><a href="#PROJETS">PROJETS</a>
 
                 </li>
                 <li>
-                    <a href="PARCOURS">PARCOURS</a>
+                    <a href="#CONTACTS">CONTACT</a>
                 </li>
 
             </ul>
