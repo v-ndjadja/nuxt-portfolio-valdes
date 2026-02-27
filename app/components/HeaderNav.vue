@@ -1,60 +1,36 @@
-<template>
+<script setup>
+import { Github } from 'lucide-vue-next';       
+</script>
+<template><section id="ACCUEIL"></section>
     <header >
-        <div class="flex justify-between items-center px-10 py-2 b-border-gray-500">
-            <div class="text-xs font-mono"> 
-                <p class=" flex items-center justify-center font-bold text-xl">
-                    <strong>ndjadjavaldes.com</strong>
-                </p>
+                <div class="flex flex-col justify-between px-10 py-2">
+                <div class="flex justify-between"> 
+                <div>
+<h3 style="color: var(--primary); font-size: 24px;"><p>salut !</p></h3>
+               </div>
+               <div  class="flex justify-between items-center gap-1 text-xs">
+    <github/>
+<a href="#https://github.com/v-ndjadja/nuxt-portfolio-valdes.git" class="menu-link">GITHUB</a>
 </div>
-<div class="flex gap-4 text-xs">
-<a href="#https://github.com/v-ndjadja/nuxt-portfolio-valdes.git">GITHUB</a>
 </div>
-
-        </div>
+</div>
         <div class="flex justify-between   px-10 py-2">
-              <div class="flex flex-col "> 
+            <div>
+              
                 <p> 
-                    <h1 class="  flex items-center justify-center font-bold text-xl"> 
-                <strong>NDJADJA VALDES.D </strong>
+                    <h1 class=" max-w-2pxl flex items-center justify-center font-bold "> 
+                <strong><span class="text-4xl font-bold">je suis</span><span  class="text-4xl font-bold mb-4"style="color: var(--primary);font-family: 'Arial', sans-serif;">NDJADJA VALDES.D</span> </strong>
                  </h1>
             </p>
            
              
-            <h3>
-                <p class="max-w-[180px] text-sm leading-tight mt-1">
-              Developpeur, createur et je travaille beauvoup depuis DOUALA  
+            <h2>
+                <p class="max-w-[300px]  text-2xl leading-relaxed mt-4">
+        Developpement de site web concepion et realisation d'application pour but diverse.  
               </p>
-            </h3>
+            </h2>
         </div>
-        <div >
-<nav> 
-            <ul class="  flex items-center gap-4">
-                <li><a
-                    href="#ACCUEIL">ACCUEIL</a>
 
-                </li>
-                <li><a href="#A PROPOS">A PROPOS</a>
-
-                </li>
-                <li><a href="#PARCOURS">PARCOURS</a>
-
-                </li>
-                <li><a href="#PROJETS">PROJETS</a>
-
-                </li>
-                <li>
-                    <a href="#CONTACTS">CONTACT</a>
-                </li>
-
-            </ul>
-        <div>
-           
-        </div>
-        <div>
-            
-        </div>
-        </nav>
-        </div>
         
         </div>
         </header>
