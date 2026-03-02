@@ -3,7 +3,7 @@
       <div style="position: sticky ; top:0 ;z-index:100;color: var(--foregroundt);background-color: var(  --muted) ;" class="flex justify-between items-center px-10 py-2 b-border-gray-500">
             <div  class="text-xs font-mono"> 
                 <p style="font-size:24px" class=" flex items-start justify-center font-bold text-xl">
-                    <strong>ndjadjavaldes.com</strong>
+                    <strong>ndjadjavaldes.me</strong>
                 </p>
 </div><nav > 
             <ul class="  flex items-center gap-4">
