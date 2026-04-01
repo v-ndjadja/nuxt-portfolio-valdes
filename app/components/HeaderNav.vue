@@ -19,13 +19,13 @@ import { Github } from 'lucide-vue-next';
               
                 <p> 
                     <h1 class=" max-w-2pxl flex items-center justify-center font-bold "> 
-                <strong><span class="text-4xl font-bold">je suis</span><span  class="text-4xl font-bold mb-4"style="color: var(--primary);font-family: 'Arial', sans-serif;">NDJADJA VALDES.D</span> </strong>
+                <strong><span class="text-4xl text-gray-300 font-bold">je suis</span> <span  class="text-4xl text-gray font-bold mb-4"style="color: var(--primary);font-family: 'Arial', sans-serif;"> NDJADJA VALDES.D</span> </strong>
                  </h1>
             </p>
            
              
             <h2>
-                <p class="max-w-[300px]  text-2xl leading-relaxed mt-4">
+                <p class="max-w-[300px] text-white text-2xl leading-relaxed mt-4">
         Developpement de site web concepion et realisation d'application pour but diverse.  
               </p>
             </h2>

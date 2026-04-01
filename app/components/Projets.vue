@@ -1,5 +1,5 @@
 <template>
-     <h1><section id="PROJETS" class="py-5 text-4xl font-bold mb-4 text-center">PROJETS</section></h1>
+     <h1><section id="PROJETS" class="py-5 text-4xl text-blue-600 font-bold mb-4 text-center">PROJETS</section></h1>
     <div>
          <div class="px-20"> <li ><h2><strong>PORTFOLIO</strong></h2></li></div>
         <p style="line-height:2"class="text-gray-300">

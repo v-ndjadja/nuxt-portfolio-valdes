@@ -8,7 +8,7 @@ import{Instagram,Github,Facebook,X, Heart} from 'lucide-vue-next';
          </div>
          <div class="flex flex-col items-center">
         <div>
-             <h1 class="py-1 text-center text-4xl font-extrabold mb-4 tracking-tight max-w-2xl leading-tight mx-auto"><strong>merci de votre visite par NDJADJA VALDES</strong></h1>
+             <h1 class="py-1 text-center text-4xl text-gray-300 font-extrabold mb-4 tracking-tight max-w-2xl leading-tight mx-auto"><strong>merci de votre visite par NDJADJA VALDES</strong></h1>
         </div>
        
    
@@ -18,7 +18,7 @@ import{Instagram,Github,Facebook,X, Heart} from 'lucide-vue-next';
     </div>
          </div>
 <div class=" flex justify-center py-15">
- <p class="text-center text-xs font-mono">Copyright © 2026 NDJADJA VALDES.D. Tous les droits reserves.</p><div class="text-center"><Heart class="h-4 w-4 text-white-500" style="fill: aliceblue;"/></div>
+ <p class="text-center text-gray-300 text-xs font-mono">Copyright © 2026 NDJADJA VALDES.D. Tous les droits reserves.</p><div class="text-center"><Heart class="h-4 w-4 text-white-500" style="fill: aliceblue;"/></div>
 </div>
 </div>
 </template>

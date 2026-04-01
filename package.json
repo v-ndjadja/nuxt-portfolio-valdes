@@ -15,9 +15,11 @@
     "@iconify-json/simple-icons": "^1.2.70",
     "@nuxt/fonts": "^0.14.0",
     "@nuxt/ui": "^4.4.0",
+    "axios": "^1.13.6",
     "lucide-vue-next": "^0.575.0",
     "nuxt": "^4.3.1",
-    "tailwindcss": "^4.1.18"
+    "tailwindcss": "^4.1.18",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.15.1",

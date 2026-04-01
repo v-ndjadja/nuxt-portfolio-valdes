@@ -1,6 +1,6 @@
      <template>
      <strong><h1 class="text-center py-5">
-          <section id="A PROPOS" class="text-4xl font-bold mb-4">A PROPOS de moi</section>
+          <section id="A PROPOS" class="text-4xl font-bold text-blue-600 mb-4">A PROPOS de moi</section>
         </h1></strong>
     <div class="flex  justify-between items-start gap-4 space-y-20 leading-relaxed" >
        <div class="flex justify-between  items-stretch gap-2"> 
