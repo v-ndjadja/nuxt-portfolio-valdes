@@ -1,5 +1,5 @@
 <script setup>
-import{Instagram,Github,Facebook,X, Heart} from 'lucide-vue-next';
+import{Instagram,Github,Facebook,X, Heart, Linkedin} from 'lucide-vue-next';
 </script>
 <template>
     <div class="space-y-5 flex flex-col mb-10">
@@ -13,7 +13,7 @@ import{Instagram,Github,Facebook,X, Heart} from 'lucide-vue-next';
        
    
     <div class="flex justify-center items-start gap-2 items-center py-1 text-center">
-        <ul><p><h3 class="text-center font-bold mb-4 text-gray-500"><strong>Trouvez-moi sur</strong></h3></p><div class="flex justify-between gap-2 "> <li><a href="https://www.instagram.com/val_des3769/" class="menu-link "><Instagram class="w-6 h-6 text-yellow-500 mx-2"/></a></li><li><a href="https://github.com/v-ndjadja" class="menu-link"><Github class="w-6 h-6 text-yellow-500 mx-2"/></a></li><li><a href="https://www.facebook.com/profile.php?id=100090050169850" class="menu-link"><Facebook class="w-6 h-6 text-yellow-500 mx-2"/></a></li><li><a href="https://x.com/ndjvaldes" class="menu-link"><X class="w-6 h-6 text-yellow-500 mx-2"/></a></li></div>
+        <ul><p><h3 class="text-center font-bold mb-4 text-gray-500"><strong>Trouvez-moi sur</strong></h3></p><div class="flex justify-between gap-2 "> <li><a href="https://www.instagram.com/val_des3769/" class="menu-link "><Instagram class="w-6 h-6 text-yellow-500 mx-2"/></a></li><li><a href="https://github.com/v-ndjadja" class="menu-link"><Github class="w-6 h-6 text-yellow-500 mx-2"/></a></li><li><a href="https://www.facebook.com/profile.php?id=100090050169850" class="menu-link"><Facebook class="w-6 h-6 text-yellow-500 mx-2"/></a></li><li><a href="https://x.com/ndjvaldes" class="menu-link"><X class="w-6 h-6 text-yellow-500 mx-2"/></a></li><Linkedin class="w-6 h-6 text-yellow-500 mx-2"/><Pinterest class="w-6 h-6 text-yellow-500 mx-2"/></div>
     </ul>
     </div>
          </div>

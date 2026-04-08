@@ -28,12 +28,10 @@ import { Github } from 'lucide-vue-next';
                 <p class="max-w-[300px] text-white text-2xl leading-relaxed mt-4">
         Developpement de site web concepion et realisation d'application pour but diverse.  
               </p>
-            </h2></div>
-<div> <img src="/logo de valdes.png " class="  flex items-center mx-auto w-80 h-80 rounded-3xl  object-cover border-4 border-black shadow-lg"></div>
+            </h2>
+        </div>
 
-        
-
-        
+        <div> <img src="/logo de valdes.png " class="  flex items-center mx-auto w-64 h-64 rounded-3xl  object-cover border-4 border-black shadow-lg"></div>
         </div>
         </header>
 </template>

@@ -4,15 +4,15 @@
         </h1></strong>
     <div class="flex  justify-between items-start gap-4 space-y-20 leading-relaxed" >
        <div class="flex justify-between  items-stretch gap-2"> 
-  <img src="/damas2.jpg " class="  flex items-center mx-auto w-64 h-64 rounded-3xl  object-cover border-4 border-black shadow-lg">
+  <img src="/damas.jpg " class="  flex items-center mx-auto w-64 h-64 rounded-3xl  object-cover border-4 border-black shadow-lg">
   <div class="space-y-6 flex flex-col justify-between items-start leading-relaxed ">
-    <p><span class="text-gray-500">Nom :</span> NDJADJA VALDES D </p>
+    <p><span class="text-gray-200">Nom :</span><span class="text-gray-100"> NDJADJA VALDES D </span> </p>
 
-  <p><span class="text-gray-500">Poste :</span> Etudiant gestion des systemes </p> 
+  <p><span class="text-blue-200">Poste :</span><span class="text-gray-100"> Etudiant gestion des systemes </span> </p> 
 
-  <p><span class="text-gray-500">Expérience :</span> debutant</p>
+  <p><span class="text-gray-200">Expérience :</span><span class="text-gray-100"> debutant</span></p>
 
- <p><span class="text-gray-500">Adresse :</span> Cameroun, Douala</p>
+ <p><span class="text-gray-200">Adresse :</span><span class="text-gray-100"> Cameroun, Douala </span></p>
   </div>
 
         </div>

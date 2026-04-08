@@ -9,7 +9,7 @@
   @click="openCreateModal" 
 />
 </div>
-     <UCard  v-if="isModalOpen" v-model="isModalOpen" class="w-full max-w-2xl mx-auto"
+     <UCard  v-if="isModalOpen"  class="w-full max-w-2xl modal mx-auto"
   :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
     <template #header>
       <div class="flex items-center justify-between">
@@ -46,7 +46,7 @@
       </div>
     </div>
  <div class="flex justify-end gap-3 mt-4">
-        <UButton color="gray" variant="soft" @click="isModalOpen = false">Annuler</UButton>
+        <UButton color="gray" variant="soft" @click="closeModal">Annuler</UButton>
         <UButton type="submit" color="primary">Enregistrer</UButton>
       </div>
     </form>
@@ -60,23 +60,23 @@
             </th>
           </tr>
         </thead>
-       <tbody v-if="items.length > 0" class="bg-white divide-y divide-gray-200">
-  <tr v-for="item in items" :key="item.id">
-    <td class="px-6 py-4">{{ item.id }}</td>
-    <td class="px-6 py-4">{{ item.nom }}</td>
-    <td class="px-6 py-4">{{ item.catg }}</td>
-   <td class="px-6 py-4">{{ item.icon }}</td>
-    <td class="px-6 py-4">{{ item.descr }}</td>
+       <tbody  v-if="items.length > 0" class="bg-white divide-y divide-gray-200">
+  <tr  v-for="(item, index) in items" :key="item.id">
+    <td class="px-6 py-4">{{ index + 1 }}</td>
+    <td class="px-6 py-4">{{ item.Nom }}</td>
+    <td class="px-6 py-4">{{ item.Catg }}</td>
+   <td class="px-6 py-4">{{ item.Icon }}</td>
+    <td class="px-6 py-4">{{ item.Descr }}</td>
     <td class="px-6 py-4">
-  <div class="flex items-center gap-2">
-    <div class="w-24 bg-gray-200 rounded-full h-2">
-      <div 
-        class="bg-blue-600 h-2 rounded-full" 
-        :style="{ width: item.niveau + '%' }"
-      ></div>
-    </div>
-    <span class="font-bold text-blue-600">{{ item.niveau }}%</span>
-  </div>
+   <td class="border border-gray-300 px-4 py-2">
+          <div class="w-full bg-gray-200 rounded-full h-4">
+            <div
+              class="bg-blue-500 h-4 rounded-full"
+              :style="{ width: item.Niveau + '%' }"
+            ></div>
+          </div>
+          <span class="text-sm text-gray-600">{{ item.Niveau }}%</span>
+        </td>>
 </td>
     
 <td class="px-6 py-4 flex gap-2">{{ item.actions }}
@@ -116,50 +116,38 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
-// 1. DÉCLARATIONS (Une seule fois !)
 const columns = [
   { key: 'id', label: 'ID' },
-  {  key: 'nom', label: 'Titre' },
-  { key: 'catg', label: 'Categorie' },
-  {  key: 'descr', label: 'Description' },  
-  {  key: 'icon', label: 'Icone' },
-    {  key: 'niveau', label: 'Niveau' }, 
+  {  key: 'Nom', label: 'Titre' },
+  { key: 'Catg', label: 'Categorie' },
+  {  key: 'Descr', label: 'Description' },  
+  {  key: 'Icon', label: 'Icone' },
+    {  key: 'Niveau', label: 'Maitrise' }, 
     {  key: 'actions', label: 'Actions' }
 ]
-
-// Données du tableau
-const items = ref([
-  {
-    id: 1,
-    nom: 'Projet Test BTS',
-     catg: 'Nuxt 3 / Symfony',
-    descr: 'Si tu vois cette ligne, le tableau fonctionne !',
-    icon: 'https://example.com/demo1',
-    niveau: '50',
-  },
-  {
-     id: 2,
-    nom: 'Projet Test BTS',
-     catg: 'Nuxt 3 / Symfony',
-    descr: 'Si tu vois cette ligne, le tableau fonctionne !',
-    icon: 'https://example.com/demo1',
-    niveau: '60',
-   
+const items = ref([])
+onMounted(async () => {
+  try {
+    const response = await axios.get('http://127.0.0.1:8000/api/competences')
+    items.value = response.data.member
+    console.log("Projets chargés :", items.value)
+  } catch (error) {
+    console.error("Erreur lors du chargement :", error)
   }
-])
+})
 
-const pending = ref(false)
+const isModalOpen = ref(false)
 
-const fetchProjects = async () => {
-  // Exemple : simuler un fetch
-  pending.value = true
-  setTimeout(() => {
-    pending.value = false
-    console.log('competences chargées !')
-  }, 500)
+function openModal() {
+  isModalOpen.value = true
 }
 
-onMounted(fetchProjects)
+function closeModal() {
+  isModalOpen.value = false
+}
+
+
+
 const newProject = ref({
  nom: '',
   catg: '',      
@@ -167,20 +155,9 @@ const newProject = ref({
   icon: '',        
   niveau: 0,       // Pour le lien démo
 })
- const handleAddProject = async () => {
-  try {
-    // 1. Appel API réel vers ton Symfony
-    // Note : On utilise 'Projets' ou 'projets' selon ton entité Symfony
-    await axios.post('http://127.0.0.1:8000/api/Competences', newProject.value)
-    
-    // 2. Mise à jour immédiate de l'affichage (pour éviter d'attendre le serveur)
-    const projetAAjouter = { 
-        ...newProject.value, 
-        id: items.value.length + 1 
-    }
-    items.value.push(projetAAjouter)
+ 
 
-    isModalOpen.value = false 
+   
     newProject.value = { 
        nom: '',
   catg: '',      // On utilise 'descr' au lieu de 'description'
@@ -188,84 +165,10 @@ const newProject = ref({
   icon: '',        // Pour le lien GitHub
   niveau: '',
     }
-    
-    alert("competences ajouté avec succès !")
-    
-    // 4. Rafraîchir les données depuis le serveur pour être sûr
-    fetchProjects() 
+ 
 
-  } catch (error) {
-    console.error("Erreur d'ajout", error)
-    alert("Erreur lors de l'ajout. Vérifie que ton serveur Symfony est lancé et que le CORS est configuré.")
-  }
-}
 
-// --- FONCTION SUPPRIMER ---
-const deleteProject = async (id) => {
-  // Toujours demander confirmation avant de supprimer en base de données
-  if (confirm("Voulez-vous vraiment supprimer ce projet de la base de données Symfony ?")) {
-    try {
-      // On envoie la requête DELETE à l'API
-      await axios.delete(`http://127.0.0.1:8000/api/Competences/${id}`)
-      
-      // On met à jour l'affichage localement pour que la ligne disparaisse de suite
-      items.value = items.value.filter(p => p.id !== id)
-      
-      alert("Projet supprimé avec succès !")
-    } catch (error) {
-      console.error("Erreur lors de la suppression :", error)
-      alert("Erreur : Vérifiez que le serveur Symfony est lancé et que le CORS est OK.")
-    }
-  }
-}
- // Pour savoir si on crée ou si on modifie
-const currentProjectId = ref(null)
-const handleSave = async () => {
-  try {
-    if (isEditing.value) {
-      // --- CAS MODIFICATION ---
-      await axios.put(`http://127.0.0.1:8000/api/Competences/${currentProjectId.value}`, newProject.value)
-      alert("Compétence mise à jour !")
-    } else {
-      // --- CAS AJOUT ---
-      await axios.post('http://127.0.0.1:8000/api/Competences', newProject.value)
-      alert("Nouvelle compétence ajoutée !")
-    }
-
-    // On ferme et on rafraîchit
-    isModalOpen.value = false
-    fetchProjects() 
-    
-  } catch (error) {
-    console.error("Erreur lors de l'enregistrement", error)
-  }
-}
-
-// 1. Ta variable est bien fausse par défaut
-const isModalOpen = ref(false)
 const isEditing = ref(false)
-const openEditModal = (competence) => {
-  isEditing.value = true
-  currentProjectId.value = competence.id
-  newProject.value = { ...competence }
-  isModalOpen.value = true // La modal apparaît aussi ici
-}
-// 2. Fonction pour ouvrir en mode AJOUT
-const openCreateModal = () => {
-  isEditing.value = false
-  // On vide le formulaire pour qu'il soit tout neuf
-  newProject.value = {
-    nom: '',
-    catg: '',
-    descr: '',
-    icon: '',
-    niveau: 0
-  }
-  isModalOpen.value = true // La modal apparaît grâce au v-if
-}
-
-// 3. Ta fonction pour ouvrir en mode MODIFICATION (déjà correcte)
-
 </script>
 
 <style scoped>

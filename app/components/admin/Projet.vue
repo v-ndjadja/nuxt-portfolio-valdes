@@ -1,32 +1,125 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-
-// Définition des colonnes
+import axios from 'axios'
+import { reactive } from 'vue'
 const columns = [
   { key: 'id', label: 'ID' },
-  { key: 'titre', label: 'Titre' },
-  { key: 'descr', label: 'Description' },
-  { key: 'im', label: 'Image' },
-  { key: 'date', label: 'Date' },
-  { key: ' demo', label: 'Demo_link' },
-   { key: 'tech_user', label: 'Technologie' },
-    { key: ' git', label: 'Depot_GitHub' },
+  { key: 'Titre', label: 'Titre' },
+  { key: 'Descr', label: 'Description' },
+  { key: 'Im', label: 'Image' },
+  { key: 'Date', label: 'Date' },
+  { key: 'Demo', label: 'Demo_link' },
+   { key: 'Tech_user', label: 'Technologie' },
+    { key: 'Git', label: 'Depot_GitHub' },
      { key: 'actions', label: 'Actions' }
 ]
-
-
 const pending = ref(false)
-
-const fetchProjects = async () => {
-  // Exemple : simuler un fetch
-  pending.value = true
-  setTimeout(() => {
-    pending.value = false
-    console.log('votre liste est chargés !')
-  }, 500)
+const items = ref([])
+const vueActive = ref('none')
+const newProject = reactive({
+  Titre: '',
+  Descr: '',
+  Im: '',
+  Date: '',
+  Demo: '',
+  Tech_user: '',
+  Git: ''
+})
+function onFileChange(event) {
+  const file = event.target.files[0]
+  if (file) {
+    newProject.Im = file
+  }
 }
 
-onMounted(fetchProjects)
+
+function toggleCard() {
+  vueActive.value = (vueActive.value === 'card' ? 'none' : 'card')
+}
+
+function closeCard() {
+  vueActive.value = 'none'
+}
+function resetForm() {
+  Object.assign(newProject, {
+    id: null,
+    Titre: '',
+    Descr: '',
+    Im: '',
+    Date: '',
+    Demo: '',
+    Tech_user: '',
+    Git: ''
+  })
+}
+function editItem(item) {
+  Object.assign(newProject, item)
+  vueActive.value = 'card'
+}
+async function handleSave() {
+  try {
+    const data = new FormData()
+    data.append('Titre', newProject.Titre)
+    data.append('Descr', newProject.Descr)
+    data.append('Date', newProject.Date instanceof Date 
+  ? newProject.Date.toISOString().split('T')[0] 
+  : newProject.Date
+)
+    data.append('Demo', newProject.Demo)
+    data.append('Tech_user', newProject.Tech_user)
+    data.append('Git', newProject.Git)
+
+    if (newProject.Im) {
+      data.append('Im', newProject.Im) 
+    }
+    let response
+    if (newProject.id) {
+      response = await axios.put(
+        `http://127.0.0.1:8000/api/projets/${newProject.id}`,
+        data,
+        { headers: { 'Content-Type': 'multipart/form-data' } }
+      )
+      const index = items.value.findIndex(p => p.id === newProject.id)
+      if (index !== -1) items.value[index] = response.data
+    } else {
+      response = await axios.post(
+        'http://127.0.0.1:8000/api/upload/projets',
+        data,
+        { headers: { 'Content-Type': 'multipart/form-data' } }
+      )
+      items.value.push(response.data)
+    }
+    closeCard()
+    resetForm()
+  } catch (error) {
+    console.error("Erreur lors de l'enregistrement :", error)
+  }
+}
+function showRawDate(value) {
+  if (!value || value.trim() === '') return 'N/A'
+  const date = new Date(value)
+  return isNaN(date.getTime()) ? 'Date invalide' : date.toLocaleDateString('fr-FR')
+}
+onMounted(async () => {
+  try {
+  const response = await axios.get('http://127.0.0.1:8000/api/projets')
+      items.value = response.data.member || response.data || []
+      console.log("Projets chargés :", items.value)
+  } catch (error) {
+    console.error("Erreur lors du chargement :", error)
+  }
+})
+async function deleteItem(id) {
+  if (confirm("Voulez-vous vraiment supprimer ce projet ?")) {
+    try {
+      await axios.delete(`http://127.0.0.1:8000/api/projets/${id}`)
+      items.value = items.value.filter(item => item.id !== id)
+      console.log(`Demande ${id} supprimée`)
+    } catch (error) {
+      console.error("Erreur lors de la suppression :", error)
+    }
+  }
+}
 </script>
 
 <template>
@@ -39,59 +132,59 @@ onMounted(fetchProjects)
   icon="i-heroicons-plus" 
   label="Nouveau projet" 
   color="primary" 
-  @click="openCreateModal" 
-/><Ucard  v-if="isModalOpen" v-model="isModalOpen" class="w-full max-w-2xl mx-auto"
-  :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-  <template #header>
-    <h3 class="text-lg font-semibold">Ajouter un projet</h3>
-  </template>
-  <template #body>
-   <form @submit.prevent="handleSave" class="space-y-4">
-     <div class="flex justify beetween gap-20 ">
-      <div> <div><span><h2>TITRE:</h2></span>
-      <UFormGroup name="nom" label="nom du projet" >
-        <UInput v-model="newProject.nom" placeholder="le nom du projet" required />
-      </UFormGroup></div>
-<div><span><h2>Decrivez votre projet:</h2></span>
-      <UFormGroup name="descr" label="Categorie">
-        <UInput v-model="newProject.descr" placeholder="parlez nous du projet" required />
-        </UFormGroup></div>
-</div>
-      <div><span><h2>Description:</h2></span>
-      <UFormGroup name="descr" label="Description">
-        <UInput v-model="newProject.descr" placeholder="decrivez la competence"/>
-      </UFormGroup></div>
-      <div><span><h2>Images:</h2></span>
-      <UFormGroup name="image" label="Description">
-        <UInput v-model="newProject.im" placeholder="a quoi ressemble le projet"/>
-      </UFormGroup></div>
-       <div><span><h2>Date:</h2></span>
-      <UFormGroup name="date" label="Date ">
-        <UInput v-model="newProject.date" type="date"/>
-      </UFormGroup><>/div>
-       <div><span><h2>Demo_link:</h2></span>
-      <UFormGroup name="demo" label="Demo Link">
-        <UInput v-model="newProject.demo" placeholder="Lien de la démo" type="url" required/>
-      </UFormGroup></div>
-      <div><span><h2>Technologie:</h2></span>
-      <UFormGroup name="tech_user" label="Technologie ">
-        <UInput v-model="newProject.tech_user"/>
-      </UFormGroup></div>
-       <div><span><h2>Depot GitHub:</h2></span>
-      <UFormGroup name="git" label="Depot GitHub">
-        <UInput v-model="newProject.git" placeholder="Lien du dépôt GitHub" type="url" required/>
-      </UFormGroup></div>
-    </div>
-    </div>
- <div class="flex justify-end gap-3 mt-4">
-        <UButton color="gray" variant="soft" @click="isModalOpen = false">Annuler</UButton>
-        <UButton type="submit" color="primary">Enregistrer</UButton>
-      </div>
-    </form>
-  </template>
-</Ucard>
+  @click="toggleCard"
+  />
+  <UCard v-if="vueActive === 'card'" class="max-w-4xl shadow-xl border-t-4 border-yellow-500">
+      <template #header>
+   <h3 class="text-lg font-bold text-slate-700">
+            {{ newProject.id ? 'Modifier le projet' : 'Nouveau projet' }}
+          </h3>
+      </template>
+   <form class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 flex justify-between">
+          <div class="flex flex-col gap-3">
+            <h3 class=" text-gray-500 text-lg py-1  font-bold">Nom du projet:</h3> 
+          <UFormGroup label="Titre du projet">
+            <UInput v-model="newProject.Titre" placeholder="Ex: Application Tontine" />
+          </UFormGroup>
+           <h3 class=" text-gray-500 text-lg py-1  font-bold">Description du projet:</h3>
+          <UFormGroup label="Description du projet" class="md:col-span-2">
+            <UTextarea v-model="newProject.Descr" placeholder="Décrivez brièvement le projet..." />
+          </UFormGroup>
+               <h3 class=" text-gray-500 text-lg py-1  font-bold">Image du projet:</h3>
+           <UFormGroup label="Lien de l'image" class="md:col-span-2">
+            <UInput v-model="newProject.Im" placeholder="image" icon="i-heroicons-photo" type="file" @change="onFileChange"  />
+          </UFormGroup>
+        </div>
+        <div class="flex flex-col gap-2">
+           <h3 class=" text-gray-500 text-lg py-1 font-bold">Date de realisation:</h3>
+          <UFormGroup label="Date de réalisation">
+            <UInput v-model="newProject.Date" type="date" />
+          </UFormGroup>
+          <h3 class=" text-gray-500 text-lg py-1  font-bold">Lien vers la Demo:</h3>
+          <UFormGroup label="Lien Démo (Live)">
+            <UInput v-model="newProject.Demo" placeholder="https://..." icon="i-heroicons-link" type="url" />
+          </UFormGroup>
+           <h3 class=" text-gray-500 text-lg py-1  font-bold">Technologie utilisée:</h3>
+           <UFormGroup label="Catégorie / Technologie">
+            <UInput v-model="newProject.Tech_user" placeholder="Ex: Nuxt & Symfony" />
+          </UFormGroup>
+ <h3 class=" text-gray-500 text-lg py-1  font-bold">Lien vers le depot GiHub:</h3>
+          <UFormGroup label="Dépôt GitHub" class="md:col-span-2">
+            <UInput v-model="newProject.Git" placeholder="Lien du code source" icon="i-heroicons-code-bracket" type="url"/>
+          </UFormGroup></div>
 
-      <table class="min-w-full divide-y divide-gray-200 Ucard-table">
+        </div>
+
+        <div class="flex justify-end gap-3 pt-4 border-t">
+          <UButton color="gray" variant="ghost" icon="i-lucide-x-circle" label="Annuler" @click="vueActive = 'none'" />
+          <UButton type="button" @click="handleSave" color="black" label="Enregistrer" icon="i-lucide-save" />
+        </div>
+      </form>
+    </UCard>
+
+    
+      <table  class="divide-y divide-gray-200 w-full max-w-2xl mx-auto Ucard-table">
         <thead class="bg-gray-50">
           <tr>
             <th v-for="col in columns" :key="col.key" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -99,23 +192,31 @@ onMounted(fetchProjects)
             </th>
           </tr>
         </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
-          <tr v-for="item in items" :key="item.id">
-            <td class="px-6 py-4">{{ item.id }}</td>
+        <tbody  v-if="items && items.length > 0" class="bg-white divide-y divide-gray-200">
+          <tr v-for="(item, index) in items" :key="item.id">
+            <td class="px-6 py-4">{{ index + 1 }}</td>
             <td class="px-6 py-4">{{ item.Titre}}</td>
-            <td class="px-6 py-4">{{ item.descr }}</td>
-            <td class="px-6 py-4">{{ item.im }}</td>
-            <td class="px-6 py-4">{{ item.date }}</td>
-            <td class="px-6 py-4">{{ item.demo }}</td>
-            <td class="px-6 py-4">{{ item.tech_user }}</td>
-            <td class="px-6 py-4">{{ item.git}}</td>
+            <td class="px-6 py-4">{{ item.Descr }}</td>
+            <td class="px-6 py-4"> <img
+    :src="`http://127.0.0.1:8000${item.Im_V}`"
+    alt="Projet"
+    style="width:80px; height:80px; object-fit:cover; border-radius:8px;"
+  /></td>
+           <td class="px-6 py-4 text-gray-500">
+        {{ showRawDate(item.Date) }}
+    </td>
+            <td class="px-6 py-4">{{ item.Demo }}</td>
+            <td class="px-6 py-4">{{ item.Tech_user }}</td>
+            <td class="px-6 py-4">{{ item.Git}}</td>
             <td class="px-6 py-4 flex gap-2">{{ item.actions }}<UButton 
       icon="i-heroicons-pencil-square" 
       size="sm" 
       color="blue" 
       variant="secondary" 
       label="Modifier"
-      @click="openEditModal(item)" 
+         @click="editItem(item)" 
+
+ 
     />
 
     <UButton 
@@ -124,14 +225,21 @@ onMounted(fetchProjects)
       color="warning" 
       variant="soft" 
       label="Supprimer"
-      @click="deleteProject(item.id)" 
+       @click="deleteItem(item.id)"  
+       class=" px-2 py-1 bg-red-200 text-red-800 rounded hover:bg-red-300"
     />
             </td>
           </tr>
         </tbody>
+        <tbody v-else class="bg-white">
+  <tr>
+    <td :colspan="columns.length" class="px-6 py-10 text-center text-gray-500 italic">
+      Aucun projet trouvé dans la base de données Symfony.
+    </td>
+  </tr>
+</tbody>
       </table>
-
+</div>
       <div v-if="pending" class="mt-4 text-gray-500">Chargement...</div>
     </div>
-  </div>
 </template>

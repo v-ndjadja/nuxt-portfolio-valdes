@@ -1,65 +1,52 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-
-// Définition des colonnes
+import axios from 'axios'
 const columns = [
   { key: 'id', label: 'ID' },
-  { key: 'nom', label: 'Nom' },
-  { key: 'prenom', label: 'Prenom' },
-  { key: 'adrs_v', label: 'Adresse' },
-  { key: 'mail_v', label: 'E-mail' },
-  { key: ' bp_v', label: 'Boite Postal' },
-   { key: 'image_v', label: 'Image' },
-    { key: ' date_i_v', label: 'Date inscription' },
-     { key: ' damande_v', label: 'Vous desirez' },
-      { key: '  loisirs_v', label: 'Loisirs' },
-      { key: '  datenais_v', label: 'Date de naissance' },
+  { key: 'Nom_V', label: 'Nom' },
+  { key: 'Prenom_V', label: 'Prenom' },
+  { key: 'Adrs_V', label: 'Adresse' },
+  { key: 'Mail_V', label: 'E-mail' },
+  { key: ' Bp_V', label: 'Boite Postal' },
+   { key: 'Image_V', label: 'Image' },
+    { key: ' Date_I_V', label: 'Date inscription' },
+     { key: ' Damande_V', label: 'Vous desirez' },
+      { key: '  Loisirs_V', label: 'Loisirs' },
+      { key: '  Datenais_V', label: 'Date de naissance' },
        { key: '  action', label: 'Action' }
 ]
 
-// Données du tableau
-const items = ref([
-  {
-          id:1,
-           nom:'alie', 
-           prenom:'igor', 
-           adrs_v:'douala', 
-          mail_v:'alieigor@gmail.com', 
-           bp_v:'3455', 
-           image_v :'',
-           date_i_v :'10/03/2023',
-            damande_v :'une application',
-          loisirs_v :'jeux video',
-          datenais_v:'20/05/2007'
-    
-  },
-  {
-      id:1,
-           nom:'alie', 
-           prenom:'ester', 
-           adrs_v:'douala', 
-          mail_v:'alieester@gmail.com', 
-           bp_v:'3455', 
-           image_v :'',
-           date_i_v :'10/03/2024',
-            damande_v :'une application',
-          loisirs_v :'jeux ',
-          datenais_v:'20/05/2005'
-  }
-])
-
-const pending = ref(false)
-
-const fetchProjects = async () => {
-  // Exemple : simuler un fetch
-  pending.value = true
-  setTimeout(() => {
-    pending.value = false
-    console.log('votre liste est chargés !')
-  }, 500)
+function showRawDate(value) {
+  if (!value || value.trim() === '') return 'N/A'
+  const date = new Date(value)
+  return isNaN(date.getTime()) ? 'Date invalide' : date.toLocaleDateString('fr-FR')
 }
 
-onMounted(fetchProjects)
+
+
+const items = ref([])
+onMounted(async () => {
+  try {
+    const response = await axios.get('http://127.0.0.1:8000/api/visiteurs')
+    items.value = response.data.member
+    console.log("Projets chargés :", items.value)
+  } catch (error) {
+    console.error("Erreur lors du chargement :", error)
+  }
+})
+async function deleteItem(id) {
+  if (confirm("Voulez-vous vraiment supprimer ce projet ?")) {
+    try {
+      await axios.delete(`http://127.0.0.1:8000/api/visiteurs/${id}`)
+      items.value = items.value.filter(item => item.id !== id)
+      console.log(`Demande ${id} supprimée`)
+    } catch (error) {
+      console.error("Erreur lors de la suppression :", error)
+    }
+  }
+}
+
+
 </script>
 
 <template>
@@ -77,24 +64,42 @@ onMounted(fetchProjects)
             </th>
           </tr>
         </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
-          <tr v-for="item in items" :key="item.id">
-            <td class="px-6 py-4">{{ item.id }}</td>
-            <td class="px-6 py-4">{{ item.nom }}</td>
-            <td class="px-6 py-4">{{ item.prenom }}</td>
-            <td class="px-6 py-4">{{ item.adrs_v }}</td>
-            <td class="px-6 py-4">{{ item.mail_v }}</td>
-            <td class="px-6 py-4">{{ item.bp_v }}</td>
-            <td class="px-6 py-4">{{ item.image_v }}</td>
-            <td class="px-6 py-4">{{ item.date_i_v }}</td>
-            <td class="px-6 py-4">{{ item.damande_v }}</td>
-            <td class="px-6 py-4">{{ item.loisirs_v }}</td>
-            <td class="px-6 py-4">{{ item.datenais_v }}</td>
+        <tbody  v-if="items.length > 0" class="bg-white divide-y divide-gray-200">
+  <tr  v-for="(item, index) in items" :key="item.id">
+            <td class="px-6 py-4">{{ index + 1 }}</td>
+            <td class="px-6 py-4">{{ item.Nom_V }}</td>
+            <td class="px-6 py-4">{{ item.Prenom_V }}</td>
+            <td class="px-6 py-4">{{ item.Adrs_V }}</td>
+            <td class="px-6 py-4">{{ item.Mail_V }}</td>
+            <td class="px-6 py-4">{{ item.Bp_V }}</td>
+           <td class="px-6 py-4">
+  <img
+    :src="`http://127.0.0.1:8000${item.Image_V}`"
+    alt="Visiteur"
+    style="width:80px; height:80px; object-fit:cover; border-radius:8px;"
+  />
+</td>
+
+          <td class="px-6 py-4 text-gray-500">
+ {{ showRawDate(item.Date_I_V) }}
+    </td>
+            <td class="px-6 py-4">{{ item.Damande_V }}</td>
+            <td class="px-6 py-4">{{ item.Loisirs_V }}</td>
+           <td class="px-6 py-4 text-gray-500">
+       <td>{{ showRawDate(item.Datenais_V) }}</td>
+    </td>
             <td class="px-6 py-4 flex gap-2">{{ item.action }}
-              <button class="px-2 py-1 bg-red-200 text-red-800 rounded hover:bg-red-300">Supprimer</button>
+              <button class=" px-2 py-1 bg-red-200 text-red-800 rounded hover:bg-red-300" @click="deleteItem(item.id)">Supprimer</button>
             </td>
           </tr>
         </tbody>
+        <tbody v-else class="bg-white">
+  <tr>
+    <td :colspan="columns.length" class="px-6 py-10 text-center text-gray-500 italic">
+      Aucun projet trouvé dans la base de données Symfony.
+    </td>
+  </tr>
+</tbody>
       </table>
 
       <div v-if="pending" class="mt-4 text-gray-500">Chargement...</div>

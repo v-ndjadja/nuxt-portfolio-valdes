@@ -8,7 +8,7 @@ const vueActive = ref('false')
 </script>
 <template>
   <div class="flex overflow-hidden">
-    <aside class="w-64 bg-white border-r border-green-200 flex flex-col h-full shadow-sm">
+    <aside class="w-64 bg-gray-200  border-r border-green-200 flex flex-col h-full shadow-sm  ">
       
       <div class="p-6 border-b border-gray-100">
         <h2 class="text-xl font-bold text-primary-600 flex items-center gap-2">
@@ -34,7 +34,7 @@ const vueActive = ref('false')
     color="primary"
     variant="solid"
     @click="vueActive = (vueActive === 'projetsRecus' ? 'none' : 'projetsRecus')"
-    > Projetsrecu</UButton>
+    > Projets recu</UButton>
    </div>
     <div>
      <UButton 
@@ -68,7 +68,7 @@ const vueActive = ref('false')
 </aside>
 <template>
   <UCard class="bg-slate-900  flex-1" variant="subtle">
-   <Placeholder class="h-32" />
+    <Placeholder class="h-32" />
    <competencestableaux  v-if="vueActive === 'competences'" class="max-w-full w-full"/>
     <projet v-if="vueActive === 'projets'"class="w-full max-w-full" />
     <visiteurtab v-if="vueActive === 'visiteurs'" class="w-full max-w-full" />

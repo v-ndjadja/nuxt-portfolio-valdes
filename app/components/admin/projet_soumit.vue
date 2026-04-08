@@ -28,6 +28,7 @@
     variant="soft" 
     label="Supprimer"
     @click="deleteItem(item.id)" 
+    class=" px-2 py-1 bg-red-200 text-red-800 rounded hover:bg-red-300"
   />
 </td>
   </tr>
@@ -40,9 +41,7 @@
   </tr>
 </tbody>
       </table>
-
-
-      <div v-if="pending" class="mt-4 text-gray-500">Chargement...</div>
+<div v-if="pending" class="mt-4 text-gray-500">Chargement...</div>
     
   </div>
   </div>
@@ -61,7 +60,6 @@ const columns = [
 ]
 
 const items = ref([])
-
 onMounted(async () => {
   try {
     const response = await axios.get('http://127.0.0.1:8000/api/demandes')
